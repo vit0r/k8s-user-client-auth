@@ -7,10 +7,11 @@ $ openssl genrsa -out vitoraraujo.key 4096
 $ openssl req -new -key vitoraraujo.key -subj "/CN=vitor.araujo" -out vitoraraujo.csr
 ```
 
-## Encode req certificate as base64
+## Replace spec.request into file vitoraraujo-k8s-csr.yaml
+### Paste into request: ....
 
 ```console
-kubectl get csr vitor.araujo -o json | jq .spec.request | tr -d '"'
+$ cat vitoraraujo.csr | base64 | tr -d '\n'
 ```
 
 ## Apply the CertificateSigningRequest file per user
@@ -32,6 +33,12 @@ kubectl get csr vitor.araujo
 $ kubectl certificate approve vitor.araujo
 
 certificatesigningrequest.certificates.k8s.io/vitor.araujo approved
+```
+
+## Encode req certificate as base64
+
+```console
+kubectl get csr vitor.araujo -o json | jq .spec.request | tr -d '"'
 ```
 
 ## Copy base kubeconfig and replace values with new user name,cert and key
