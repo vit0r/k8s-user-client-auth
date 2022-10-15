@@ -1,9 +1,16 @@
 # Create User k8s client auth
 
+## Create kind cluster 
+
+```console
+$ kind create cluster --name cluster-test
+```
+
 ## Generate csr and key per user
 
 ```console
 $ openssl genrsa -out vitoraraujo.key 4096
+
 $ openssl req -new -key vitoraraujo.key -subj "/CN=vitor.araujo" -out vitoraraujo.csr
 ```
 
@@ -35,15 +42,10 @@ $ kubectl certificate approve vitor.araujo
 certificatesigningrequest.certificates.k8s.io/vitor.araujo approved
 ```
 
-## Encode req certificate as base64
-
-```console
-kubectl get csr vitor.araujo -o json | jq .spec.request | tr -d '"'
-```
-
 ## Copy base kubeconfig and replace values with new user name,cert and key
 
-```consoole
+```console
+# READ config.original first
 $ cp ~/.kube/config  config-vitoraraujo
 ```
 
