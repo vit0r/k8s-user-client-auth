@@ -11,7 +11,7 @@ cat <<EOM >$USERNAME-k8s-csr.yaml
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata: 
-  name: vitor.araujo
+  name: ${USERNAME}
 spec:
   request: ${CSR}
   signerName: kubernetes.io/kube-apiserver-client
